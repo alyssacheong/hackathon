@@ -90,3 +90,43 @@ i {
   max-width: 1100px;
   margin: 0 auto;
 }
+
+
+.eventForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Make sure it's above other content */
+  width: 300px;
+}
+
+.eventForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventForm button {
+  margin-top: 10px;
+  padding: 10px 0 10px 0;
+  background-color: #2d3e50;
+  color: #ffffff;
+  border: 1px solid #231f20;
+  border-radius: 5px;
+}
+
+.eventForm button:hover {
+  background-color: #231f20;
+}
+
+.eventForm input {
+  width: 93%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-width: 1px;
+}
