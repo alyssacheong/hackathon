@@ -10,30 +10,17 @@ import { isAfter, isBefore, addDays } from "date-fns";
 
 
 export default function Calendar() {
-  const [weekendsVisible, setWeekendsVisible] = useState(true)
+  const weekendsVisible = true
   const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
 
-  function handleWeekendsToggle() {
-    setWeekendsVisible(!weekendsVisible)
-  }
+  const [showEventForm, setShowEventForm] = useState<boolean>(false); // State to show/hide form
+  const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null); // State to hold selected date
+  const [eventTitle, setEventTitle] = useState<string>(''); // State to hold the event title
 
   function handleDateSelect(selectInfo: DateSelectArg) {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
+    setSelectedDate(selectInfo); // Store the selected date info
+    setShowEventForm(true); // Show the custom event form
   }
-
 
   function handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event? '${clickInfo.event.title}'`)) {
@@ -45,40 +32,81 @@ export default function Calendar() {
     setCurrentEvents(events)
   }
 
+  function handleEventFormSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (eventTitle && selectedDate) {
+      const calendarApi = selectedDate.view.calendar;
+      calendarApi.addEvent({
+        id: createEventId(),
+        title: eventTitle,
+        start: selectedDate.startStr,
+        end: selectedDate.endStr,
+        allDay: selectedDate.allDay,
+      });
+      setShowEventForm(false); // Close the form after adding the event
+      setEventTitle(''); // Reset event title
+    }
+  }
+
+  function handleEventFormCancel() {
+    setShowEventForm(false); // Hide the form
+    setEventTitle(''); // Reset event title
+  }
+
   return (
     <div className={styles.app}>
-    <Sidebar
-      weekendsVisible={weekendsVisible}
-      handleWeekendsToggle={handleWeekendsToggle}
-      currentEvents={currentEvents}
-    />
-    <div className={styles.appMain}>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        initialView='dayGridMonth'
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        weekends={weekendsVisible}
-        initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-        select={handleDateSelect} // uncomment this for manual date selection
-        eventContent={renderEventContent} // custom render function
-        eventClick={handleEventClick}
-        eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+      <Sidebar
+        currentEvents={currentEvents}
+      />
+      <div className={styles.appMain}>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          initialView='dayGridMonth'
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          weekends={weekendsVisible}
+          initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+          select={handleDateSelect} // uncomment this for manual date selection
+          eventContent={renderEventContent} // custom render function
+          eventClick={handleEventClick}
+          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
         /* you can update a remote database when these fire:
         eventAdd={function(){}}
         eventChange={function(){}}
         eventRemove={function(){}}
         */
-      />
+        />
+      </div>
+
+      {/* Conditionally render the custom event form */}
+      {showEventForm && selectedDate && (
+        <div className={styles.eventForm}>
+          <h3>Add Event</h3>
+          <form onSubmit={handleEventFormSubmit}>
+            <div>
+              <input
+                type="text"
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+                required
+                placeholder="Enter event title here"
+              />
+            </div>
+            <button type="submit">Add Event</button>
+            <button type="button" onClick={handleEventFormCancel}>
+              Cancel
+            </button>
+          </form>
+        </div>
+      )}
     </div>
-  </div>
   )
 }
 
@@ -93,12 +121,10 @@ function renderEventContent(eventInfo: EventContentArg) {
 }
 
 interface SidebarProps {
-  weekendsVisible: boolean;
-  handleWeekendsToggle: () => void;
   currentEvents: EventApi[];
 }
 
-function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: SidebarProps) {
+function Sidebar({ currentEvents }: SidebarProps) {
   return (
     <div className={styles.appSidebar}>
       <div className={styles.appSidebarSection}>
@@ -108,17 +134,7 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
         </ul>
       </div>
       <div className={styles.appSidebarSection}>
-        <label>
-          <input
-            type='checkbox'
-            checked={weekendsVisible}
-            onChange={handleWeekendsToggle}
-          ></input>
-          Toggle Weekends
-        </label>
-      </div>
-      <div className={styles.appSidebarSection}>
-        <h2>Events of Next Week ({getUpcomingEvents(currentEvents).length})</h2>
+        <h2>Events in the Next Week ({getUpcomingEvents(currentEvents).length})</h2>
         <ul>
           {currentEvents.map((event) => (
             <SidebarEvent key={event.id} event={event} />

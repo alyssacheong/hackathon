@@ -5,7 +5,7 @@
     padding-top: 0.5%;
     padding-bottom: 0.2%;
     padding-left: 2%;
-    background-color: #fff06a;
+    background-color: #ffe600;
     flex-direction: row;
     display: flex;
     flex-wrap: wrap;
@@ -13,16 +13,17 @@
 
 .logo {
     width: 3%;
-    object-fit: fill;
+    height: auto;
+    object-fit: contain;
     margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .title {
     width: fit-content;
     background-color: #fcf5e7;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0px 10px 0px 10px;
     margin: 10px;
     margin-top: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
 }
