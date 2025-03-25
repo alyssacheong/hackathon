@@ -70,10 +70,8 @@ i {
 
 .appSidebar {
   width: 300px;
-  height: 100vh;
-  /* Full viewport height */
-  overflow-y: auto;
-  /* Scrollable sidebar */
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Scrollable sidebar */
   background: #ffe600;
   border-right: 1px solid #ffe600;
   padding: 10px;
