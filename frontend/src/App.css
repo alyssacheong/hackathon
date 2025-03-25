@@ -1,0 +1,29 @@
+.header {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: left;
+    font-size: xxx-large;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 2%;
+    background-color: #fff06a;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.logo {
+    width: 5%;
+    object-fit: cover;
+    margin-bottom: -10px;
+}
+
+.title {
+    width: fit-content;
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    margin-bottom: px;
+    margin-top: 10px;
+    border-radius: 25px;
+}

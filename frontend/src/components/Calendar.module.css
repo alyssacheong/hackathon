@@ -59,7 +59,7 @@ b { /* used for event dates/times */
   width: 300px;
   height: 100vh; /* Full viewport height */
   overflow-y: auto; /* Scrollable sidebar */
-  background: #eaf9ff;
+  background: #FFe600;
   border-right: 1px solid #d3e2e8;
 }
 
