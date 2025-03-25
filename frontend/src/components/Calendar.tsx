@@ -118,7 +118,7 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
         </label>
       </div>
       <div className={styles.appSidebarSection}>
-        <h2>Events of Next Week ({getUpcomingEvents(currentEvents).length})</h2>
+        <h2>Events in the Next Week ({getUpcomingEvents(currentEvents).length})</h2>
         <ul>
           {currentEvents.map((event) => (
             <SidebarEvent key={event.id} event={event} />
