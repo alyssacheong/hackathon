@@ -45,13 +45,13 @@ export default function Calendar() {
   }
 
   return (
-    <div className={styles.demoApp}>
+    <div className={styles.app}>
     <Sidebar
       weekendsVisible={weekendsVisible}
       handleWeekendsToggle={handleWeekendsToggle}
       currentEvents={currentEvents}
     />
-    <div className={styles.demoAppMain}>
+    <div className={styles.appMain}>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
@@ -99,8 +99,8 @@ interface SidebarProps {
 
 function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: SidebarProps) {
   return (
-    <div className={styles.demoAppSidebar}>
-      <div className={styles.demoAppSidebarSection}>
+    <div className={styles.appSidebar}>
+      <div className={styles.appSidebarSection}>
         <h2>Instructions</h2>
         <ul>
           <li>Select dates and you will be prompted to create a new event</li>
@@ -108,7 +108,7 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
           <li>Click an event to delete it</li>
         </ul>
       </div>
-      <div className={styles.demoAppSidebarSection}>
+      <div className={styles.appSidebarSection}>
         <label>
           <input
             type='checkbox'
@@ -118,7 +118,7 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
           toggle weekends
         </label>
       </div>
-      <div className={styles.demoAppSidebarSection}>
+      <div className={styles.appSidebarSection}>
         <h2>All Events ({currentEvents.length})</h2>
         <ul>
           {currentEvents.map((event) => (
