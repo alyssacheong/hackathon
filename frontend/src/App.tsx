@@ -1,13 +1,14 @@
-// src/App.tsx
-import React from 'react';
-import Calendar from './components/Calendar';
 
-const App: React.FC = () => {
-    return (
-        <div className="app">
-            <Calendar/>
-        </div>
-    );
-};
+import './App.css'
 
-export default App;
+import Page from './pages/page'
+function App() {
+
+  return (
+    <>
+     <Page></Page>
+    </>
+  )
+}
+
+export default App
