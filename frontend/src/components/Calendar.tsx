@@ -10,12 +10,8 @@ import { isAfter, isBefore, addDays } from "date-fns";
 
 
 export default function Calendar() {
-  const [weekendsVisible, setWeekendsVisible] = useState(true)
+  const weekendsVisible = true
   const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
-
-  function handleWeekendsToggle() {
-    setWeekendsVisible(!weekendsVisible)
-  }
 
   function handleDateSelect(selectInfo: DateSelectArg) {
     let title = prompt('Please enter a new title for your event')
@@ -48,8 +44,6 @@ export default function Calendar() {
   return (
     <div className={styles.app}>
     <Sidebar
-      weekendsVisible={weekendsVisible}
-      handleWeekendsToggle={handleWeekendsToggle}
       currentEvents={currentEvents}
     />
     <div className={styles.appMain}>
@@ -93,12 +87,10 @@ function renderEventContent(eventInfo: EventContentArg) {
 }
 
 interface SidebarProps {
-  weekendsVisible: boolean;
-  handleWeekendsToggle: () => void;
   currentEvents: EventApi[];
 }
 
-function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: SidebarProps) {
+function Sidebar({ currentEvents }: SidebarProps) {
   return (
     <div className={styles.appSidebar}>
       <div className={styles.appSidebarSection}>
@@ -106,16 +98,6 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
         <ul>
           <li>COMP1521</li>
         </ul>
-      </div>
-      <div className={styles.appSidebarSection}>
-        <label>
-          <input
-            type='checkbox'
-            checked={weekendsVisible}
-            onChange={handleWeekendsToggle}
-          ></input>
-          Toggle Weekends
-        </label>
       </div>
       <div className={styles.appSidebarSection}>
         <h2>Events in the Next Week ({getUpcomingEvents(currentEvents).length})</h2>
