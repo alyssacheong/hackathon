@@ -1,12 +1,13 @@
 import supabase from "../supabase";
+import Calendar from "../components/Calendar";
 
 const Page = () => {
-    console.log(supabase)
-    return (
-        <div>
-            <h1>hi</h1>
-        </div>
-    )
+  console.log(supabase)
+  return (
+    <>
+      <Calendar />
+    </>
+  )
 }
 
 export default Page
