@@ -1,5 +1,113 @@
 .calendarContainer {
-    display: flex;
-  justify-content: center;
+  background: linear-gradient(145deg, #2d2d31, #1a1b1e);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
 
+.calendarContainer :global(.fc) {
+  --fc-border-color: rgba(255, 255, 255, 0.1);
+  --fc-daygrid-event-dot-width: 8px;
+  --fc-event-bg-color: #5c3fb8;
+  --fc-event-border-color: #4e35a0;
+  --fc-today-bg-color: rgba(92, 63, 184, 0.15);
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.calendarContainer :global(.fc-theme-standard) {
+  border: none;
+}
+
+.calendarContainer :global(.fc-header-toolbar) {
+  margin-bottom: 24px !important;
+}
+
+.calendarContainer :global(.fc-button-primary) {
+  background: rgba(92, 63, 184, 0.1) !important;
+  border: 1px solid rgba(92, 63, 184, 0.2) !important;
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.calendarContainer :global(.fc-button-primary:hover) {
+  background: rgba(92, 63, 184, 0.2) !important;
+  border-color: rgba(92, 63, 184, 0.3) !important;
+}
+
+.calendarContainer :global(.fc-button-primary:not(:disabled).fc-button-active),
+.calendarContainer :global(.fc-button-primary:not(:disabled):active) {
+  background: #5c3fb8 !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(92, 63, 184, 0.3) !important;
+}
+
+.calendarContainer :global(.fc-daygrid-day-frame) {
+  padding: 8px !important;
+  min-height: 100px !important;
+  transition: all 0.2s ease;
+}
+
+.calendarContainer :global(.fc-day) {
+  background: rgba(45, 45, 49, 0.6);
+  border-radius: 12px !important;
+  border: none !important;
+  transition: all 0.2s ease;
+}
+
+.calendarContainer :global(.fc-day:hover) {
+  background: rgba(45, 45, 49, 0.8) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.calendarContainer :global(.fc-day-other) {
+  background: rgba(26, 27, 30, 0.8) !important;
+}
+
+.calendarContainer :global(.fc-day-today) {
+  background: rgba(92, 63, 184, 0.15) !important;
+  box-shadow: inset 0 0 0 2px rgba(92, 63, 184, 0.3) !important;
+}
+
+.calendarContainer :global(.fc-col-header-cell) {
+  padding: 8px !important;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9em;
+  font-weight: 500;
+  text-transform: uppercase;
+  background: transparent !important;
+  border: none !important;
+}
+
+.calendarContainer :global(.fc-scrollgrid) {
+  border: none !important;
+}
+
+.calendarContainer :global(.fc-scrollgrid td) {
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.calendarContainer :global(.fc-toolbar-title) {
+  color: rgba(255, 255, 255, 0.87) !important;
+  font-weight: 600 !important;
+}
+
+.calendarContainer :global(.fc-daygrid-day-number) {
+  color: rgba(255, 255, 255, 0.87) !important;
+  font-weight: 500 !important;
+}
+
+.calendarContainer :global(.fc-event-title) {
+  font-weight: 500 !important;
+}
+
+.calendarContainer :global(.fc-event) {
+  background-color: #5c3fb8 !important;
+  border-color: #4e35a0 !important;
+  color: white !important;
 }
