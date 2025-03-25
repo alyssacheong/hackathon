@@ -6,6 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './eventUtils.ts'
+import { isAfter, isBefore, addDays } from "date-fns";
 
 
 export default function Calendar() {
@@ -35,7 +36,7 @@ export default function Calendar() {
 
 
   function handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+    if (confirm(`Are you sure you want to delete the event? '${clickInfo.event.title}'`)) {
       clickInfo.event.remove()
     }
   }
@@ -101,11 +102,9 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
   return (
     <div className={styles.appSidebar}>
       <div className={styles.appSidebarSection}>
-        <h2>Instructions</h2>
+        <h2>Your Courses:</h2>
         <ul>
-          <li>Select dates and you will be prompted to create a new event</li>
-          <li>Drag, drop, and resize events</li>
-          <li>Click an event to delete it</li>
+          <li>COMP1521</li>
         </ul>
       </div>
       <div className={styles.appSidebarSection}>
@@ -115,11 +114,11 @@ function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }: Sideb
             checked={weekendsVisible}
             onChange={handleWeekendsToggle}
           ></input>
-          toggle weekends
+          Toggle Weekends
         </label>
       </div>
       <div className={styles.appSidebarSection}>
-        <h2>All Events ({currentEvents.length})</h2>
+        <h2>Events of Next Week ({getUpcomingEvents(currentEvents).length})</h2>
         <ul>
           {currentEvents.map((event) => (
             <SidebarEvent key={event.id} event={event} />
@@ -134,11 +133,43 @@ interface SidebarEventProps {
   event: EventApi;
 }
 
+// //old event code
+// function SidebarEvent({ event }: SidebarEventProps) {
+//   return (
+//     <li key={event.id}>
+//       <b>{event.start && formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
+//       <i>{event.title}</i>
+//     </li>
+//   )
+// }
+
+function getUpcomingEvents(currentEvents: any[]): any[] {
+  const now = new Date();
+  const dayBefore = addDays(now, -1);
+  const nextWeek = addDays(now, 7);
+
+  return currentEvents.filter(event => {
+    if (!event.start) return false; // Skip events with no start date
+
+    const eventDate = new Date(event.start); // Ensure it's a Date object
+    return isAfter(eventDate, dayBefore) && isBefore(eventDate, nextWeek);
+  });
+}
+
 function SidebarEvent({ event }: SidebarEventProps) {
+  const now = new Date();
+  const dayBefore = addDays(now, -1);
+  const nextWeek = addDays(now, 7);
+
+  // Ensure event has a valid start date and is within the next 7 days
+  if (!event.start || !isAfter(event.start, dayBefore) || !isBefore(event.start, nextWeek)) {
+    return null; // Skip events that are not in the next 7 days
+  }
+
   return (
     <li key={event.id}>
-      <b>{event.start && formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
+      <b>{event.start && formatDate(event.start, { year: "numeric", month: "short", day: "numeric" })}</b>
       <i>{event.title}</i>
     </li>
-  )
+  );
 }
